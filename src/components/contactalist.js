@@ -6,12 +6,12 @@ import { filterContacts } from "../contacts/contacts-selectors"
 import { useEffect } from "react";
 
 export default function ContactList() {
-    const onRender = useSelector(filterContacts )
+    const onRender = useSelector(filterContacts)
     const dispatch = useDispatch()
-  const fetchContacts = () => dispatch(contactsOperations.fetchContacts())
 
+console.log(onRender);
   useEffect(() => {
-    fetchContacts()
+    dispatch(contactsOperations.fetchContacts())
   }, [dispatch]);
 
      return  (<div>

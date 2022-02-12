@@ -30,13 +30,13 @@ export default function Form (){
     
         const handleSubmit = e=> {
             e.preventDefault();
-        const add = (names, number) => dispatch(contactOperations.addContact(names, number))
+
         const validator = name =>
             selector.find(contact => contact.name === name);
 
         validator(name)
             ? alert(`${name} is already in contacts`)
-            : add({name, number});
+            : dispatch(contactOperations.addContact({name, number}));
              
         setName('')
         setNumber('')

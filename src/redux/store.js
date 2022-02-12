@@ -4,8 +4,8 @@ import contactReducer from "../contacts/contacts-reducer"
 
 
 const store = configureStore({
-    reducer: { contacts: contactReducer },
-    devTools: process.env.NODE_ENV !== "production",
+    reducer:
+        {contacts: contactReducer} 
 })
 
 export default store;

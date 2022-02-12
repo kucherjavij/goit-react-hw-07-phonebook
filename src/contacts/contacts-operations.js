@@ -1,31 +1,36 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios"
 import {
-    addContactRequest, addContactSuccess, addContactRejected,
+    // addContactRequest, addContactSuccess, addContactRejected,
     deleteContactRequest, deleteContactSuccess, deleteContactRejected,
-    fetchContactRequest, fetchContactSuccess, fetchContactRejected
+    // fetchContactRequest, fetchContactSuccess, fetchContactRejected
 } from "./contacts-actions";
+import {fetchContact, addContacts} from './contact-API'
 axios.defaults.baseURL = 'https://6201629bfdf50900172499d7.mockapi.io/contacts';
 
 
-const fetchContacts = () => dispatch => {
-    dispatch(fetchContactRequest())
 
-    axios.get(`/contacts`)
-        .then(({ data }) => dispatch(fetchContactSuccess(data)))
-    .catch(error => dispatch(fetchContactRejected(error)))
-}
+const fetchContacts = createAsyncThunk(
+    'app/fetchContact',
+    async () => {
+    try {
+        const contacts = await fetchContact()
+            return contacts
+    } catch (error) {
+        return error}})
 
-const addContact = data => dispatch => {
-    const contact = {
-        name: data.name,
-        number: data.phone
+
+export const addContact = createAsyncThunk(
+  'contacts/AddContact',
+  async ({ name, number }) => {
+    try {
+      const contact = await addContacts(name, number);
+      return contact;
+    } catch (error) {
+      return error;
     }
-
-    dispatch(addContactRequest())
-
-    axios.post(`/contacts`, contact).then(({ data }) => dispatch(addContactSuccess(data)))
-        .catch(error => dispatch(addContactRejected(error)))
-};
+  },
+);
 
 const deleteContact = contactId => dispatch => {
     dispatch(deleteContactRequest())
